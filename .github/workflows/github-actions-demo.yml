@@ -18,5 +18,11 @@ jobs:
           mkdir output
           gcc test.c -o output/test
 
+      - name: "编译armbian"
+        run: |
+          git clone --depth=1 --branch=main https://github.com/armbian/build
+          cd build
+          ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
+          
       - name: "运行代码"
         run: ./output/test
