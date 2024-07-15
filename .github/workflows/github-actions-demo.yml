@@ -14,8 +14,9 @@ jobs:
           ls
 
       - name: "编译代码"
-        run: mkdir output
-        run: gcc test.c -o output/test
+        run: |
+          mkdir output
+          gcc test.c -o output/test
 
       - name: "运行代码"
         run: ./output/test
