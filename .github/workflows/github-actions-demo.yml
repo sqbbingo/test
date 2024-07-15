@@ -1,11 +1,16 @@
 name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: this is a test demo
 on: [push]
 jobs:
   test_job:
     runs-on: ubuntu-latest
     steps:
-      - name: "test_pwd_ls" 
-        run: |
-          pwd
-          ls
+      - name: "test_ls" 
+        run: ls
+      - name: "test_pwd"
+        run: pwd
+  test_job2:
+    runs-one: ubuntu-latest
+    steps:
+      -name: "test2"
+        run: ls
