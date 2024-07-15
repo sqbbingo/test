@@ -27,7 +27,8 @@ jobs:
           git clone --depth=1 --branch=main https://github.com/armbian/build
           cd build
           ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
-
+          cd ..
+          
       - name: "运行代码"
         run: ./output/test
 
