@@ -8,12 +8,13 @@ jobs:
       - name: 读取仓库内容
         uses: actions/checkout@v4
 
-      - name: "test_ls" 
+      - name: "查看当前路径和文件"
+        run: pwd 
         run: ls
-      - name: "test_pwd"
-        run: pwd
-  test_job2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "test2"
-        run: ls
+
+      - name: "编译代码"
+        run: mkdir output
+        run: gcc test.c -o output/test
+
+      - name: "运行代码"
+        run: ./output/test
