@@ -10,7 +10,7 @@ jobs:
       - name: "test_pwd"
         run: pwd
   test_job2:
-    runs-one: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: "test2"
         run: ls
