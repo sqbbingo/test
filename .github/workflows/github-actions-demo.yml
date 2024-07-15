@@ -31,8 +31,8 @@ jobs:
       - name: "运行代码"
         run: ./output/test
 
-      - name: 部署
+      - name: "部署"
           uses: JamesIves/github-pages-deploy-action@v4
           with:
-              branch: gh-pages
-              folder: build/output/images
+            branch: gh-pages
+            folder: build/output/images
