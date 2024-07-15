@@ -12,5 +12,5 @@ jobs:
   test_job2:
     runs-one: ubuntu-latest
     steps:
-      -name: "test2"
+      - name: "test2"
         run: ls
