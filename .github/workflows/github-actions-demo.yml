@@ -5,7 +5,7 @@ jobs:
   test_job:
     runs-on: ubuntu-latest
     steps:
-      - name: "test_ls" 
-        run: ls
-      - name: "test_pwd"
-        run: pwd
+      - name: "test_pwd_ls" 
+        run: |
+          pwd
+          ls
