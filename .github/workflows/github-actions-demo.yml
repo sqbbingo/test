@@ -5,9 +5,9 @@ jobs:
   test_job:
     runs-on: ubuntu-latest
     steps:
-      -name: 读取仓库内容
+      - name: 读取仓库内容
         uses: actions/checkout@v4
-        
+
       - name: "test_ls" 
         run: ls
       - name: "test_pwd"
