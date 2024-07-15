@@ -7,3 +7,5 @@ jobs:
     steps:
       - name: "test_ls" 
         run: ls
+      - name: "test_pwd"
+        run: pwd
