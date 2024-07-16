@@ -28,6 +28,7 @@ jobs:
           # cd build
           # ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
           # cd ..
+          chmod +x build.sh
           ./build.sh --board znp_k1
           
       - name: "运行代码"
