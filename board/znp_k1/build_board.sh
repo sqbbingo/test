@@ -7,7 +7,9 @@ function board_pull_source {
 
 #将配置和patch应用到源码
 function board_patch {
+    pwd
     rsync -av --progress board/$BOARD  build/
+    ls build/config/boards
 }
 
 #编译

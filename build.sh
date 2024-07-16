@@ -42,7 +42,7 @@ function check_armbian_source {
     fi  
       
     # 可选：回到脚本开始时的目录  
-    cd - > /dev/null
+    cd - 
 }
 
 
