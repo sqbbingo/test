@@ -26,14 +26,21 @@ jobs:
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
           cd build
-          ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
+          # ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
           cd ..
           
       - name: "运行代码"
         run: ./output/test
 
-      - name: "部署"
-        uses: JamesIves/github-pages-deploy-action@v4
+      # - name: "部署"
+        # uses: JamesIves/github-pages-deploy-action@v4
+        # with:
+          # branch: gh-pages
+          # folder: build/output/images
+          
+      - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
         with:
-          branch: gh-pages
-          folder: build/output/images
+          args: ./output/test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
