@@ -15,6 +15,6 @@ function board_patch {
 #编译
 function board_armbian_compile {
     cd build/
-    ./compile.sh build BOARD=makego-ZNP BRANCH=edge BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=jammy
+    ./compile.sh build BOARD=makego-ZNP BRANCH=edge BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
     cd -
 }
