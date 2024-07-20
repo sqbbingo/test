@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   test_job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: 读取仓库内容
         uses: actions/checkout@v4
@@ -29,6 +29,7 @@ jobs:
           # ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
           # cd ..
           chmod +x build.sh
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
           ./build.sh --board znp_k1/
           
       - name: "运行代码"
