@@ -35,15 +35,9 @@ jobs:
       - name: "运行代码"
         run: ./output/test
 
-      # - name: "部署"
-        # uses: JamesIves/github-pages-deploy-action@v4
-        # with:
-          # branch: gh-pages
-          # folder: build/output/images
-          
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
+      - name: "部署"
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          args: ./output/test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: build/output/images
+          
