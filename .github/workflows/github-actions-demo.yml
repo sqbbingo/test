@@ -31,6 +31,9 @@ jobs:
           chmod +x build.sh
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
           ./build.sh --board znp_k1/
+          git lfs install
+          git lfs track "*.img"
+          git add .gitattributes
           
       - name: "运行代码"
         run: ./output/test
