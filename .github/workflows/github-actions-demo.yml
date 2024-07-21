@@ -35,6 +35,7 @@ jobs:
           git lfs track "*.img"
           git add .gitattributes
           cp ./output/test ./output/test.img
+          dd if=/dev/zero of=./output/test.img count=200 bs=1M
           
       - name: "运行代码"
         run: ./output/test
