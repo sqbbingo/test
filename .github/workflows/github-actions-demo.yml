@@ -34,6 +34,7 @@ jobs:
           git lfs install
           git lfs track "*.img"
           git add .gitattributes
+          cp ./output/test ./output/test.img
           
       - name: "运行代码"
         run: ./output/test
@@ -42,5 +43,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: build/output/images
+          folder: output/
           
