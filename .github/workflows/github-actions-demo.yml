@@ -36,6 +36,9 @@ jobs:
           git add .gitattributes
           cp ./output/test ./output/test.img
           dd if=/dev/zero of=./output/test.img count=200 bs=1M
+          git add ./output/test.img
+          git commit -m "lfs 200"
+          git push origin main
           
       - name: "运行代码"
         run: ./output/test
