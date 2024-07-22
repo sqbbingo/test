@@ -49,7 +49,7 @@ jobs:
           allowUpdates: true
           # 版本的可选名称。 如果省略，将使用标签
           name: "test"
-          ref: main
+          commit: "main"
           # 要包含到Release Assets中的文件
           artifacts: "./output/test1.img"
           # 会使用一个临时的token来创建Release
