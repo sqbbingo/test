@@ -13,29 +13,12 @@ jobs:
       - name: 读取仓库内容
         uses: actions/checkout@v4
 
-      - name: "查看当前路径和文件"
-        run: |
-          pwd 
-          ls
-
-      - name: "编译代码"
-        run: |
-          # mkdir output
-          gcc test.c -o output/test
-
       - name: "编译armbian"
         run: |
-          # git clone --depth=1 --branch=main https://github.com/armbian/build
-          # cd build
-          # ./compile.sh build BOARD=pine64 BRANCH=current BUILD_DESKTOP=no BUILD_MINIMAL=yes KERNEL_CONFIGURE=no RELEASE=bookworm
-          # cd ..
           chmod +x build.sh
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
-          # ./build.sh --board znp_k1/
-          dd if=/dev/zero of=./output/test1.img count=200 bs=1M
-          
-      - name: "运行代码"
-        run: ./output/test
+          ./build.sh --board znp_k1/
+          gzip -c buld/output/images > output/znp_k1.gz
 
       - name: "发布"
         uses: ncipollo/release-action@v1
@@ -46,7 +29,7 @@ jobs:
           name: "test"
           tag: "main"
           # 要包含到Release Assets中的文件
-          artifacts: "./output/test1.img"
+          artifacts: "./output/znp_k1.gz"
           # 会使用一个临时的token来创建Release
           token: ${{ github.token }}
           # 自动生成一些变化列表之类的内容。
