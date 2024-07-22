@@ -19,7 +19,7 @@ jobs:
 
       - name: "编译代码"
         run: |
-          mkdir output
+          # mkdir output
           gcc test.c -o output/test
 
       - name: "编译armbian"
@@ -41,8 +41,13 @@ jobs:
         run: ./output/test
 
       - name: "部署"
-        uses: JamesIves/github-pages-deploy-action@v4
+      # 发布
+        uses: ncipollo/release-action@v1
         with:
-          branch: gh-pages
-          folder: output/
+          # 要包含到Release Assets中的文件
+          artifacts: "*./out/test.omg"
+          # 会使用一个临时的token来创建Release
+          token: ${{ github.token }}
+          # 自动生成一些变化列表之类的内容。
+          generateReleaseNotes: true
           
