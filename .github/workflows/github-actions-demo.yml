@@ -1,9 +1,6 @@
 name: GitHub Actions Demo
 run-name: this is a test demo
-on: 
-  push:
-    types:
-      - tag
+on: [push]
 
 permissions:
   contents: write
