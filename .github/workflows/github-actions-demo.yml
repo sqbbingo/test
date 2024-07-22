@@ -1,9 +1,7 @@
 name: GitHub Actions Demo
 run-name: this is a test demo
 on:
-  push:
-    tags:
-      - v*
+  push
 
 permissions:
   contents: write
@@ -44,10 +42,13 @@ jobs:
       - name: "运行代码"
         run: ./output/test
 
-      - name: "部署"
-      # 发布
+      - name: "发布"
         uses: ncipollo/release-action@v1
         with:
+          # 如果版本已经存在，是否应该更新它
+          allowUpdates: true
+          # 版本的可选名称。 如果省略，将使用标签
+          name: "test"
           # 要包含到Release Assets中的文件
           artifacts: "./output/test1.img"
           # 会使用一个临时的token来创建Release
