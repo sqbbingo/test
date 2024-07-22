@@ -46,7 +46,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           # 要包含到Release Assets中的文件
-          artifacts: "./out/test1.img"
+          artifacts: "./output/test1.img"
           # 会使用一个临时的token来创建Release
           token: ${{ github.token }}
           # 自动生成一些变化列表之类的内容。
