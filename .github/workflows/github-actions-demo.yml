@@ -19,7 +19,7 @@ jobs:
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
           ./build.sh --board znp_k1/
           sudo apt install gzip
-          gzip -c buld/output/images > output/znp_k1.gz
+          gzip -c build/output/images > output/znp_k1.gz
 
       - name: "发布"
         uses: ncipollo/release-action@v1
