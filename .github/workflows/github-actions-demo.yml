@@ -1,6 +1,9 @@
 name: GitHub Actions Demo
 run-name: this is a test demo
-on: [push]
+on: 
+  push:
+    types:
+      - tag
 
 permissions:
   contents: write
@@ -36,6 +39,7 @@ jobs:
           git add .gitattributes
           cp ./output/test ./output/test.img
           dd if=/dev/zero of=./output/test1.img count=200 bs=1M
+          ls out/
           
       - name: "运行代码"
         run: ./output/test
@@ -45,7 +49,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           # 要包含到Release Assets中的文件
-          artifacts: "./out/*.img"
+          artifacts: "./out/test1.img"
           # 会使用一个临时的token来创建Release
           token: ${{ github.token }}
           # 自动生成一些变化列表之类的内容。
