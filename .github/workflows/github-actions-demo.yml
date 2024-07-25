@@ -17,7 +17,7 @@ jobs:
         run: |
           chmod +x build.sh
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
-          ./build.sh --board znp_k1/
+          ./build.sh --board znp_k1_v24.05/
           sudo apt install gzip
           tar -cvf - build/output/images/ | gzip > output/znp_k1.gz
 

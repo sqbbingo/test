@@ -1,22 +1,20 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: John Doe <john.doe@somewhere.on.planet>
-Date: Sun, 21 Apr 2024 09:43:40 +0800
+Date: Wed, 24 Jul 2024 16:39:51 +0000
 Subject: Patching kernel rockchip64 files
  arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
- arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dts
 
 Signed-off-by: John Doe <john.doe@somewhere.on.planet>
 ---
- arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts | 473 ++++++++++
- arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dts     |   4 +
- 2 files changed, 477 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts | 585 ++++++++++
+ 1 file changed, 585 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts b/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
 new file mode 100755
-index 000000000000..0548db627970
+index 000000000..fa2eb1d86
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
-@@ -0,0 +1,473 @@
+@@ -0,0 +1,585 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 T-Chip Intelligent Technology Co., Ltd
@@ -27,8 +25,8 @@ index 000000000000..0548db627970
 +#include "rk3328.dtsi"
 +
 +/ {
-+	model = "Firefly roc-rk3328-cc";
-+	compatible = "firefly,roc-rk3328-cc", "rockchip,rk3328";
++	model = "MakeGo makego-rk3328-znp";
++	compatible = "makego,makego-rk3328-znp", "rockchip,rk3328";
 +
 +	aliases {
 +		ethernet0 = &gmac2io;
@@ -80,6 +78,20 @@ index 000000000000..0548db627970
 +		regulator-boot-on;
 +		regulator-min-microvolt = <12000000>;
 +		regulator-max-microvolt = <12000000>;
++	};
++
++	sdio_pwrseq: sdio-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		pinctrl-names = "default";
++		pinctrl-0 = <&wifi_enable_h>;
++
++		/*
++		 * On the module itself this is one of these (depending
++		 * on the actual card populated):
++		 * - SDIO_RESET_L_WL_REG_ON
++		 * - PDN (power down when low)
++		 */
++		reset-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_LOW>;
 +	};
 +
 +	vcc_sd: sdmmc-regulator {
@@ -160,6 +172,14 @@ index 000000000000..0548db627970
 +		gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
 +		pinctrl-0 = <&ir_int>;
 +		pinctrl-names = "default";
++	};
++
++	wireless-wlan {
++		compatible = "wlan-platdata";
++		rockchip,grf = <&grf>;
++		wifi_chip_type = "ap6212";
++		WIFI,host_wake_irq = <&gpio1 RK_PC3 GPIO_ACTIVE_HIGH>;
++		status = "okay";
 +	};
 +
 +};
@@ -382,6 +402,15 @@ index 000000000000..0548db627970
 +};
 +
 +&pinctrl {
++	pinctrl-names = "default";
++	pinctrl-0 = <&rtc_32k>;
++
++	rtc {
++		rtc_32k: rtc-32k {
++			rockchip,pins = < 1 RK_PD4 RK_FUNC_GPIO &pcfg_pull_up_8ma>;
++			phandle = < 0x35 >;
++		};
++	};
 +
 +	ir {
 +		ir_int: ir-int {
@@ -404,6 +433,41 @@ index 000000000000..0548db627970
 +	usb2 {
 +		usb20_host_drv: usb20-host-drv {
 +			rockchip,pins = <0 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
++	spi0-2 {
++		spi0m2_clk: spi0m2-clk {
++			rockchip,pins = <3 RK_PA0 4 &pcfg_pull_up>;
++		};
++
++		spi0m2_cs0: spi0m2-cs0 {
++			rockchip,pins = <3 RK_PB0 3 &pcfg_pull_up>;
++		};
++
++		spi0m2_cs1: spi0m2-cs1 {
++			rockchip,pins = <3 RK_PA7 3 &pcfg_pull_up>;
++		};
++
++		spi0m2_tx: spi0m2-tx {
++			rockchip,pins = <3 RK_PA1 4 &pcfg_pull_up>;
++		};
++
++		spi0m2_rx: spi0m2-rx {
++			rockchip,pins = <3 RK_PA2 4 &pcfg_pull_up>;
++		};
++	};
++
++	sdio-pwrseq {
++		wifi_enable_h: wifi-enable-h {
++		rockchip,pins =
++			<1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
++	wireless-wlan {
++		wifi-wake-host {
++			rockchip,pins = < 1 RK_PC3 RK_FUNC_GPIO &pcfg_pull_up >;
 +		};
 +	};
 +};
@@ -461,6 +525,13 @@ index 000000000000..0548db627970
 +	status = "okay";
 +};
 +
++&uart1 {
++	dma-names = "tx", "rx";
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_xfer>;
++	status = "okay";
++};
++
 +&uart2 {
 +	status = "okay";
 +};
@@ -490,25 +561,45 @@ index 000000000000..0548db627970
 +&vop_mmu {
 +	status = "okay";
 +};
-diff --git a/arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dts b/arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dts
-index 7966f8a3aadb..191638132dad 100755
---- a/arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dts
-@@ -206,10 +206,14 @@ &gmac2io {
- 	snps,reset-delays-us = <0 10000 50000>;
- 	snps,rxpbl = <0x4>;
- 	snps,txpbl = <0x4>;
- 	tx_delay = <0x24>;
- 	rx_delay = <0x18>;
-+	status = "disabled";
++
++&spi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi0m2_clk &spi0m2_tx &spi0m2_rx>;
++	num-cs = <0x2>;
++	status = "okay";
++    spi_cs0@0 {
++            reg = <0x0>;
++            compatible = "armbian,spi-dev";
++            pinctrl-names = "default";
++            pinctrl-0 = <&spi0m2_cs0>;
++            spi-max-frequency = <5000000>;
++            status = "okay";
++    };
++
++    spi_cs1@1 {
++            reg = <0x1>;
++            compatible = "armbian,spi-dev";
++            pinctrl-names = "default";
++            pinctrl-0 = <&spi0m2_cs1>;
++            spi-max-frequency = <5000000>;
++            status = "okay";
++    };
 +};
 +
-+&gmac2phy {
- 	status = "okay";
- };
- 
- &gpu {
- 	mali-supply = <&vdd_logic>;
++&sdio {
++	bus-width = <4>;
++	cap-sd-highspeed;
++	cap-sdio-irq;
++	sd-uhs-sdr104; /* 支持SDIO3.0 */
++	keep-power-in-suspend;
++	max-frequency = <150000000>;
++	mmc-pwrseq = <&sdio_pwrseq>;
++	non-removable;
++	pinctrl-names = "default";
++	pinctrl-0 = <&sdmmc1_bus4 &sdmmc1_cmd &sdmmc1_clk>;
++	status = "okay";
++};
++
 -- 
 Created with Armbian build tools https://github.com/armbian/build
 
