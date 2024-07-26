@@ -1,20 +1,20 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: John Doe <john.doe@somewhere.on.planet>
-Date: Wed, 24 Jul 2024 16:39:51 +0000
+Date: Fri, 26 Jul 2024 12:12:39 +0000
 Subject: Patching kernel rockchip64 files
  arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
 
 Signed-off-by: John Doe <john.doe@somewhere.on.planet>
 ---
- arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts | 585 ++++++++++
- 1 file changed, 585 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts | 587 ++++++++++
+ 1 file changed, 587 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts b/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
 new file mode 100755
-index 000000000..fa2eb1d86
+index 000000000..6dbbcce39
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
-@@ -0,0 +1,585 @@
+@@ -0,0 +1,587 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 T-Chip Intelligent Technology Co., Ltd
@@ -121,6 +121,18 @@ index 000000000..fa2eb1d86
 +		vin-supply = <&vcc_io>;
 +	};
 +
++	vcc_host_5v: vcc-host-5v-regulator {
++		compatible = "regulator-fixed";
++		enable-active-high;
++		gpio = <&gpio0 RK_PA0 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&usb30_host_drv>;
++		regulator-name = "vcc_host_5v";
++		regulator-always-on;
++		regulator-boot-on;
++		vin-supply = <&vcc_sys>;
++	};
++
 +	vcc_host1_5v: vcc_otg_5v: vcc-host1-5v-regulator {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
@@ -153,14 +165,14 @@ index 000000000..fa2eb1d86
 +		compatible = "gpio-leds";
 +
 +		power_led: led-0 {
-+			label = "firefly:blue:power";
++			label = "makego:blue:power";
 +			linux,default-trigger = "heartbeat";
 +			gpios = <&rk805 1 GPIO_ACTIVE_LOW>;
 +			default-state = "on";
 +		};
 +
 +		user_led: led-1 {
-+			label = "firefly:yellow:user";
++			label = "makego:yellow:user";
 +			linux,default-trigger = "mmc1";
 +			gpios = <&rk805 0 GPIO_ACTIVE_LOW>;
 +			default-state = "off";
@@ -258,18 +270,6 @@ index 000000000..fa2eb1d86
 +
 +&gpu {
 +	mali-supply = <&vdd_logic>;
-+};
-+
-+&hdmi {
-+	status = "okay";
-+};
-+
-+&hdmiphy {
-+	status = "okay";
-+};
-+
-+&hdmi_sound {
-+	status = "okay";
 +};
 +
 +&i2c1 {
@@ -436,6 +436,12 @@ index 000000000..fa2eb1d86
 +		};
 +	};
 +
++	usb3 {
++		usb30_host_drv: usb30-host-drv {
++			rockchip,pins = <0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
 +	spi0-2 {
 +		spi0m2_clk: spi0m2-clk {
 +			rockchip,pins = <3 RK_PA0 4 &pcfg_pull_up>;
@@ -526,7 +532,7 @@ index 000000000..fa2eb1d86
 +};
 +
 +&uart1 {
-+	dma-names = "tx", "rx";
++	dma-names = "!tx", "!rx";
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&uart1_xfer>;
 +	status = "okay";
@@ -563,25 +569,21 @@ index 000000000..fa2eb1d86
 +};
 +
 +&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0m2_clk &spi0m2_tx &spi0m2_rx>;
-+	num-cs = <0x2>;
++	pinctrl-0 = <&spi0m2_clk &spi0m2_tx &spi0m2_rx &spi0m2_cs0 &spi0m2_cs1>;
++	max-freq = <48000000>;
++	cs-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>, <&gpio3 RK_PA7 GPIO_ACTIVE_LOW>;
 +	status = "okay";
 +    spi_cs0@0 {
 +            reg = <0x0>;
 +            compatible = "armbian,spi-dev";
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&spi0m2_cs0>;
-+            spi-max-frequency = <5000000>;
++            spi-max-frequency = <48000000>;
 +            status = "okay";
 +    };
 +
 +    spi_cs1@1 {
 +            reg = <0x1>;
 +            compatible = "armbian,spi-dev";
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&spi0m2_cs1>;
-+            spi-max-frequency = <5000000>;
++            spi-max-frequency = <48000000>;
 +            status = "okay";
 +    };
 +};
