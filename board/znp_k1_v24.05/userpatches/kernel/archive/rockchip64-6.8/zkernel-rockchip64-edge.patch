@@ -1,20 +1,20 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: John Doe <john.doe@somewhere.on.planet>
-Date: Fri, 26 Jul 2024 12:12:39 +0000
+Date: Fri, 26 Jul 2024 16:49:39 +0000
 Subject: Patching kernel rockchip64 files
  arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
 
 Signed-off-by: John Doe <john.doe@somewhere.on.planet>
 ---
- arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts | 587 ++++++++++
- 1 file changed, 587 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts | 588 ++++++++++
+ 1 file changed, 588 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts b/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
 new file mode 100755
-index 000000000..6dbbcce39
+index 000000000..10f799229
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3328-makego-znp.dts
-@@ -0,0 +1,587 @@
+@@ -0,0 +1,588 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 T-Chip Intelligent Technology Co., Ltd
@@ -184,6 +184,7 @@ index 000000000..6dbbcce39
 +		gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
 +		pinctrl-0 = <&ir_int>;
 +		pinctrl-names = "default";
++		status = "disabled";
 +	};
 +
 +	wireless-wlan {
